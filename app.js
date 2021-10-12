@@ -7,7 +7,7 @@ class SnakePart {
         this.y = y
     }
 }
-let speed = 5
+let speed = 7
 
 let tileCount = 20
 let tileBlock = canvas.width / tileCount
@@ -18,6 +18,9 @@ let snakeY = 10
 const snakeParts = []
 let snakeTail = 2 
 
+let inputXVelocity = 0
+let inputYVelocity = 0
+
 let yVelocity = 0
 let xVelocity = 0
 
@@ -27,6 +30,8 @@ let foodY = 5
 let score = 0
 
 function drawGame(){
+    xVelocity = inputXVelocity
+    yVelocity = inputYVelocity
     let result = isGameOver()
     if(result){
         return
@@ -43,34 +48,37 @@ function drawGame(){
 function isGameOver(){
     let gameOver = false
     
-    if(xVelocity === 0 && yVelocity === 0){
+    if(yVelocity === 0 && xVelocity === 0){
         return false
     }
+
     if(snakeX < 0){
         gameOver = true
     }
-    else if(snakeX === tileBlock){
+    //unsure why tileBlock does not work
+    else if(snakeX === tileCount){
         gameOver = true
     }
     else if(snakeY < 0) {
         gameOver = true
     }
-    else if(snakeY === tileBlock){
+    //unsure why tileblock does not work
+    else if(snakeY === tileCount){
         gameOver = true
     }
 
     for(let i=0; i < snakeParts.length; i++){
         let part = snakeParts[i]
-        if(part.x === snakeX && part.Y === snakeY) {
-            gameeOver = true;
-            break;
+        if(part.x === snakeX && part.y === snakeY) {
+            gameOver = true
+            break
         }
     }
 
     if (gameOver) {
         ctx.fillStyle = 'white'
         ctx.font = "50px geneva"
-        ctx.fillText("GAME OVER!", canvas.width/4.5, canvas.height/2)
+        ctx.fillText("GAME OVER!", canvas.width/4.3, canvas.height/2)
     }
     return gameOver
 }
@@ -125,31 +133,31 @@ document.body.addEventListener('keydown', keyDown)
 function keyDown(event){
     //up
     if(event.keyCode == 38) {
-        if(yVelocity == 1)
+        if(inputYVelocity == 1)
             return
-        yVelocity = -1
-        xVelocity = 0
+        inputYVelocity = -1
+        inputXVelocity = 0
     }
     //down
     if(event.keyCode == 40) {
-        if(yVelocity == -1)
+        if(inputYVelocity == -1)
             return
-        yVelocity = 1
-        xVelocity = 0
+        inputYVelocity = 1
+        inputXVelocity = 0
     }
     //left
     if(event.keyCode == 37) {
-        if(xVelocity == 1)
+        if(inputXVelocity == 1)
             return
-        yVelocity = 0
-        xVelocity = -1
+        inputYVelocity = 0
+        inputXVelocity = -1
     }
     //right
     if(event.keyCode == 39) {
-        if(xVelocity == -1)
+        if(inputXVelocity == -1)
             return 
-        yVelocity = 0
-        xVelocity = 1
+        inputYVelocity = 0
+        inputXVelocity = 1
     }
 }
 
