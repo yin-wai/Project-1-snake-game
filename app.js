@@ -67,13 +67,13 @@ function isGameOver(){
         gameOver = true
     }
 
-    for(let i=0; i < snakeParts.length; i++){
-        let part = snakeParts[i]
-        if(part.x === snakeX && part.y === snakeY) {
-            gameOver = true
-            break
-        }
-    }
+    // for(let i=0; i < snakeParts.length; i++){
+    //     let part = snakeParts[i]
+    //     if(part.x === snakeX && part.y === snakeY) {
+    //         gameOver = true
+    //         break
+    //     }
+    // }
 
     if (gameOver) {
         ctx.fillStyle = 'white'
