@@ -8,10 +8,10 @@ start game function  ———> immediately takes you and start the game
 create the snake within the game 
 
 use a switch case for the movement of the snake
-key === 39
-key === 38
-key === 37
-key === 40
+```key === 39```
+```key === 38```
+```key === 37```
+```key === 40```
 make sure that the direction of the snake cannot clash i.e. the left key cannot be clicked if the direction of the snake is right
 
 randomise the baits and generates on the game (maybe insert images of fruits into the game instead of having just squares?) (depend on the time/ capability)
@@ -31,3 +31,5 @@ lets the user restart the game and get put back to the main screen
 
 ## Wireframing
 
+
+## Log Book

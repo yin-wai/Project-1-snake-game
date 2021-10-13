@@ -67,13 +67,13 @@ function isGameOver(){
         gameOver = true
     }
 
-    // for(let i=0; i < snakeParts.length; i++){
-    //     let part = snakeParts[i]
-    //     if(part.x === snakeX && part.y === snakeY) {
-    //         gameOver = true
-    //         break
-    //     }
-    // }
+    for(let i=0; i < snakeParts.length; i++){
+        let part = snakeParts[i]
+        if(part.x === snakeX && part.y === snakeY){
+            gameOver = true
+            break
+        }
+    }
 
     if (gameOver) {
         ctx.fillStyle = 'white'
@@ -165,4 +165,48 @@ drawGame()
 
 //build a high score table
 
+Snakes = function (){
+    DIR = {
+        UP : 0,
+        DOWN: 1,
+        LEFT : 2,
+        RIGHT : 3,
+        OPPOSITE : [1, 0, 3, 2]
+    }
+    CORNER = {
 
+    }
+    CORNER.LOOKUP
+}
+
+let cfg = {
+    runner: {
+        stats: true
+    },
+    state: {
+        initial: 'loading',
+        events: [
+            {name:'ready', from:'loading', to:'menu'},
+            {name:'viewScores', from:'menu', to:'highscores'},
+            {name:'viewCredits', from:'menu', to:'credits'},
+        ]
+    },
+    keys : [
+        { keys: [Game.Key.Y, Game.Key.Q], mode:'down', state: 'quit', action: function() {this.quitGame()}},
+        { keys: [Game.Key.N, Game.Key.ESC], mode:'down', state: 'quit', action: function() {this.continueGame()}},
+        { keys: [Game.Key.RETURN, Game.Key.ESC], mode:'down', state: 'highscore', action: function() {this.returnToMenu()}},
+        { keys: [Game.Key.RETURN, Game.Key.ESC], mode:'down', state: 'name', action: function() {this.savesHighScore()}},
+        { keys: [Game.Key.LEFT, Game.Key.A], mode:'down', state: 'game', action: function() {this.snake.move(DIR.LEFT)}},
+        { keys: [Game.Key.RIGHT, Game.Key.D], mode:'down', state: 'game', action: function() {this.snake.move(DIR.RIGHT)}},
+        { keys: [Game.Key.UP, Game.Key.W], mode:'down', state: 'game', action: function() {this.snake.move(DIR.UP)}},
+        { keys: [Game.Key.DOWN, Game.Key.S], mode:'down', state: 'game', action: function() {this.snake.move(DIR.DOWN)}},
+        { keys: [Game.Key.ESC], mode:'down', state: 'game', action: function() {this.quitGame()}},
+
+    ],
+    difficultyLevel: [
+        { level:'Slow', AMove: 0.09, AScore: 0.75 },
+        { level:'Normal', AMove: 0.07, AScore: 1.00},
+        { level:'Fast', AMove: 0.05, AScore: 1.25}
+    ],
+
+}
