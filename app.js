@@ -1,3 +1,4 @@
+// This is the old game code that I have originally created on 11 OCT 2021
 // const canvas = document.getElementById("canvas")
 // const ctx = canvas.getContext("2d")
 
@@ -237,7 +238,42 @@ let cfg = {
     fruit: {score:10, growth: 5, size: 64},
     snake: {x:45, y:26, length:10, dir:DIR.LEFT},
     court: {w:48, h:36, layout: [
-
+        "wwwwww                                    wwwwww", 
+        "w                                              w",  
+        "w                                              w",  
+        "w                                              w",  
+        "w                                              w",  
+        "w                                              w",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "                                                ",  
+        "w                                              w",  
+        "w                                              w",  
+        "w                                              w",  
+        "w                                              w",  
+        "w                                              w",  
+        "wwwwww                                    wwwwww", 
     ]}
 }
 
@@ -295,6 +331,19 @@ let game = Class.create({
         this.playClickFx()
     },
 
+    onChangeState: function(event, from, to) {
+        this.dom.main.removeClassName("state_is_" + from)
+        this.dom.main.addClassName("state_is_" + to)
+    },
+
+    resetDifficulty:function(n){
+        this.storage.difficulty = Game.Math.minMax(is.valid(n) ? n:toInt(this.storage.difficulty,1),0,cfg.difficulties.length-1)
+        this.difficulty = this.difficulties[this.storage.difficulty]
+    },
+
+    resetGame: function() {
+
+    },
 })
 
 // score system that I spent ages wrapping my head around.....
@@ -304,9 +353,18 @@ let score = Class.create({
         this.game = game
         this.dom = {
             highscores: {
-
+                page: $('highscores'),
+                title: $('highscores').down('h1'),
+                list: $('highscores').down('ul'),
+                input: $({tag:'input', maxLength: 10})
+            },
+            score: {
+                current: $('score').down('.current .value'),
+                high: $('score').down('.high .value')
             }
         }
+        this.load()
+        this.reset()
     }
 
 })
@@ -328,8 +386,28 @@ let fruit = Class.create({
         this.growth = cfg.fruit.growth
     },
     reset: function(pos){
-        this.pos
+        this.pos = pos || this.pos
+        this.occupied = [ // a fruit occupies 3x3 cells and should not spawn on top of the snake body
+            new Game.Point(this.pos.x-1, this.pos.y -1),
+            new Game.Point(this.pos.x, this.pos.y -1),
+            new Game.Point(this.pos.x+1, this.pos.y -1),
+            new Game.Point(this.pos.x-1, this.pos.y),
+            this.pos,
+            new Game.Point(this.pos.x + 1, this.pos.y),
+            new Game.Point(this.pos.x-1, this.pos.y +1),
+            new Game.Point(this.pos.x, this.pos.y +1),
+            new Game.Point(this.pos.x+1, this.pos.y +1),
+        ]
     },
+    occupies : function(pos) {
+        for(let n=0; n < this.occupied.length; n++){
+        if(this.occupied[n].equals(pos))
+        return true
+        }
+        return false
+    },
+
+    update: function(dt){}
 
 })
 
@@ -342,5 +420,64 @@ let snake = Class.create({
 
     reset:function(option){
         this.head = this.tail = new Game.Point(options.x, option.y)
+        this.dir = options.dir
+        this.dt = 0
+        this.AMove = this.game.difficult.AMove
+        this.move = []
+        this.length = 1
+        this.growth = options.length || 10
+        while(--this.growth)
+            this.increase()
+    },
+
+    update: function(dt){
+        this.dt = this.dt + dt
+        if(this.dt > this.AMove) {
+            this.dt = this.dt - this.AMove
+            this.increase(this.moves.shift())
+            this.decrease()
+        }
+    },
+
+    increase: function(changeDir){
+        if (typeof changeDir != 'undefined'){
+            this.head.corner = CORNER.LOOKUP[this.dir][changeDir]
+            this.dir = changeDir
+            this.game.playTurnFx()
+        }
+    },
+    decrease: function() {
+        if (this.growth)
+        this.growth--
+        else
+        this.pop()
+    },
+    push: function(segment) {
+        segment.next = this.head
+        this.head.previous = segment
+        this.head = segment
+        this.length++
+    },
+    pop: function(){
+        this.tail = this.tail.previous
+        this.tail.next = null
+        this.length--
+    },
+    grow: function(n) {
+        this.growth += n
+    },
+    move: function(dir){
+        let previous = this.moves.length ? this.move[this.moves.length-1]: this.dir
+        if((dir != previous) && (dir !=DIR.OPPOSITE[previous]))
+        this.moves.push(dir)
+    },
+    // do() is used to execute the code at each event. This performs an arbitart computation
+    occupies: function(pos, ignoreHead) {
+        let segment = ignoreHead ? this.head.next : this.head
+        do {
+            if(segment.equals(pos))
+            return true
+        } while (segment = segment.next)
+        return false
     }
 })
