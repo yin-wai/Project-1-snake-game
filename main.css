@@ -11,3 +11,7 @@ body {
     align-items: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+button {
+    padding:1em;
+    margin:20px
+}

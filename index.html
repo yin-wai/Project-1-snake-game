@@ -8,19 +8,16 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <h1>Snakes Game 2.0</h1>
-    <div id="snakes">
-        <div id="score">
-            <span class="current"><span class="label">Score: </span><span class="value">000000</span></span>
-            <span class="high"><span class="label">Highscore: </span><span class="value">000000</span></span>
-        </div>
-        <canvas id="canvas" width="600" height="600"></canvas>
+    <div>
+        <h1>Snakes Game 2.0</h1>
+        <button onClick="window.location.reload()">Restart</button>
+            <div id="snakes">
+            <div id="score"></div>
+            <canvas id="canvas" width="400" height="400"></canvas>
             <div id="menu_on_top">
-                <div id="highscores" class="menu">
-                </div>
-                <div id="menu" class="menu">
-                <div></div>
-            </div>
+            <div id="highscores" class="menu"></div>
+            <div id="menu" class="menu"></div>
+        </div>
         </div>
     </div>
     <div id="guide">controls: arrow keys </div>

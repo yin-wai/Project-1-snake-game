@@ -10,8 +10,7 @@ class SnakePart {
 let speed = 7
 
 let tileCount = 20
-let tileBlock = canvas.width / tileCount
-let tileSize = tileBlock -2
+let tileSize = canvas.width/ tileCount -2
 
 let snakeX = 10
 let snakeY = 10
@@ -42,6 +41,17 @@ function drawGame(){
     drawSnake()
     drawFood()
     drawScore()
+
+    if (score > 6) {
+        speed = 9
+      }
+    if (score > 12) {
+        speed = 11
+      }
+    if (score > 15) {
+        speed = 15
+    }
+
     setTimeout(drawGame,1000/ speed)
 }
 
@@ -55,14 +65,12 @@ function isGameOver(){
     if(snakeX < 0){
         gameOver = true
     }
-    //unsure why tileBlock does not work
     else if(snakeX === tileCount){
         gameOver = true
     }
     else if(snakeY < 0) {
         gameOver = true
     }
-    //unsure why tileblock does not work
     else if(snakeY === tileCount){
         gameOver = true
     }
@@ -78,7 +86,7 @@ function isGameOver(){
     if (gameOver) {
         ctx.fillStyle = 'white'
         ctx.font = "50px geneva"
-        ctx.fillText("GAME OVER!", canvas.width/4.3, canvas.height/2)
+        ctx.fillText("GAME OVER!", canvas.width/7, canvas.height/2)
     }
     return gameOver
 }
@@ -98,7 +106,7 @@ function drawSnake() {
     ctx.fillStyle = "red"
     for(let i=0; i < snakeParts.length; i++){
         let part = snakeParts[i]
-        ctx.fillRect(part.x*tileBlock, part.y*tileBlock, tileSize, tileSize)
+        ctx.fillRect(part.x*tileCount, part.y*tileCount, tileSize, tileSize)
     }
     snakeParts.push(new SnakePart(snakeX, snakeY))
     if(snakeParts.length > snakeTail) {
@@ -106,7 +114,7 @@ function drawSnake() {
     }
 
     ctx.fillStyle = 'black'
-    ctx.fillRect(snakeX*tileBlock,snakeY*tileBlock,tileSize, tileSize)
+    ctx.fillRect(snakeX*tileCount,snakeY*tileCount,tileSize, tileSize)
 }
 
 function changePosition(){
@@ -116,7 +124,7 @@ function changePosition(){
 
 function drawFood() {
     ctx.fillStyle = "yellow"
-    ctx.fillRect(foodX* tileBlock, foodY*tileBlock, tileSize, tileSize)
+    ctx.fillRect(foodX* tileCount, foodY*tileCount, tileSize, tileSize)
 }
 
 function checkFoodConsumed() {
@@ -160,11 +168,10 @@ function keyDown(event){
         inputXVelocity = 1
     }
 
-    
 }
 
 drawGame()
 
 //build a high score table
 
-let highscore = localStorage.getItem('high')
+
