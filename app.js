@@ -1,167 +1,167 @@
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
+// const canvas = document.getElementById("canvas")
+// const ctx = canvas.getContext("2d")
 
-class SnakePart {
-    constructor(x, y){
-        this.x = x
-        this.y = y
-    }
-}
-let speed = 7
+// class SnakePart {
+//     constructor(x, y){
+//         this.x = x
+//         this.y = y
+//     }
+// }
+// let speed = 7
 
-let tileCount = 20
-let tileBlock = canvas.width / tileCount
-let tileSize = tileBlock -2
+// let tileCount = 20
+// let tileBlock = canvas.width / tileCount
+// let tileSize = tileBlock -2
 
-let snakeX = 10
-let snakeY = 10
-const snakeParts = []
-let snakeTail = 2 
+// let snakeX = 10
+// let snakeY = 10
+// const snakeParts = []
+// let snakeTail = 2 
 
-let inputXVelocity = 0
-let inputYVelocity = 0
+// let inputXVelocity = 0
+// let inputYVelocity = 0
 
-let yVelocity = 0
-let xVelocity = 0
+// let yVelocity = 0
+// let xVelocity = 0
 
-let foodX = 5
-let foodY = 5
+// let foodX = 5
+// let foodY = 5
 
-let score = 0
+// let score = 0
 
-function drawGame(){
-    xVelocity = inputXVelocity
-    yVelocity = inputYVelocity
-    let result = isGameOver()
-    if(result){
-        return
-    }
-    clearScreen()
-    changePosition()
-    checkFoodConsumed()
-    drawSnake()
-    drawFood()
-    drawScore()
-    setTimeout(drawGame,1000/ speed)
-}
+// function drawGame(){
+//     xVelocity = inputXVelocity
+//     yVelocity = inputYVelocity
+//     let result = isGameOver()
+//     if(result){
+//         return
+//     }
+//     clearScreen()
+//     changePosition()
+//     checkFoodConsumed()
+//     drawSnake()
+//     drawFood()
+//     drawScore()
+//     setTimeout(drawGame,1000/ speed)
+// }
 
-function isGameOver(){
-    let gameOver = false
+// function isGameOver(){
+//     let gameOver = false
     
-    if(yVelocity === 0 && xVelocity === 0){
-        return false
-    }
+//     if(yVelocity === 0 && xVelocity === 0){
+//         return false
+//     }
 
-    if(snakeX < 0){
-        gameOver = true
-    }
-    //unsure why tileBlock does not work
-    else if(snakeX === tileCount){
-        gameOver = true
-    }
-    else if(snakeY < 0) {
-        gameOver = true
-    }
-    //unsure why tileblock does not work
-    else if(snakeY === tileCount){
-        gameOver = true
-    }
+//     if(snakeX < 0){
+//         gameOver = true
+//     }
+//     //unsure why tileBlock does not work
+//     else if(snakeX === tileCount){
+//         gameOver = true
+//     }
+//     else if(snakeY < 0) {
+//         gameOver = true
+//     }
+//     //unsure why tileblock does not work
+//     else if(snakeY === tileCount){
+//         gameOver = true
+//     }
 
-    for(let i=0; i < snakeParts.length; i++){
-        let part = snakeParts[i]
-        if(part.x === snakeX && part.y === snakeY){
-            gameOver = true
-            break
-        }
-    }
+//     for(let i=0; i < snakeParts.length; i++){
+//         let part = snakeParts[i]
+//         if(part.x === snakeX && part.y === snakeY){
+//             gameOver = true
+//             break
+//         }
+//     }
 
-    if (gameOver) {
-        ctx.fillStyle = 'white'
-        ctx.font = "50px geneva"
-        ctx.fillText("GAME OVER!", canvas.width/4.3, canvas.height/2)
-    }
-    return gameOver
-}
+//     if (gameOver) {
+//         ctx.fillStyle = 'white'
+//         ctx.font = "50px geneva"
+//         ctx.fillText("GAME OVER!", canvas.width/4.3, canvas.height/2)
+//     }
+//     return gameOver
+// }
 
-function drawScore(){
-    ctx.fillStyle = "white"
-    ctx.font = "10px verdana"
-    ctx.fillText("Score " + score, canvas.width-50, 10)
-}
+// function drawScore(){
+//     ctx.fillStyle = "white"
+//     ctx.font = "10px verdana"
+//     ctx.fillText("Score " + score, canvas.width-50, 10)
+// }
 
-function clearScreen(){
-    ctx.fillStyle = '#1d5934'
-    ctx.fillRect(0,0,canvas.width,canvas.height)
-}
+// function clearScreen(){
+//     ctx.fillStyle = '#1d5934'
+//     ctx.fillRect(0,0,canvas.width,canvas.height)
+// }
 
-function drawSnake() {
-    ctx.fillStyle = "red"
-    for(let i=0; i < snakeParts.length; i++){
-        let part = snakeParts[i]
-        ctx.fillRect(part.x*tileBlock, part.y*tileBlock, tileSize, tileSize)
-    }
-    snakeParts.push(new SnakePart(snakeX, snakeY))
-    if(snakeParts.length > snakeTail) {
-        snakeParts.shift()
-    }
+// function drawSnake() {
+//     ctx.fillStyle = "red"
+//     for(let i=0; i < snakeParts.length; i++){
+//         let part = snakeParts[i]
+//         ctx.fillRect(part.x*tileBlock, part.y*tileBlock, tileSize, tileSize)
+//     }
+//     snakeParts.push(new SnakePart(snakeX, snakeY))
+//     if(snakeParts.length > snakeTail) {
+//         snakeParts.shift()
+//     }
 
-    ctx.fillStyle = 'black'
-    ctx.fillRect(snakeX*tileBlock,snakeY*tileBlock,tileSize, tileSize)
-}
+//     ctx.fillStyle = 'black'
+//     ctx.fillRect(snakeX*tileBlock,snakeY*tileBlock,tileSize, tileSize)
+// }
 
-function changePosition(){
-    snakeX = snakeX + xVelocity
-    snakeY = snakeY + yVelocity
-}
+// function changePosition(){
+//     snakeX = snakeX + xVelocity
+//     snakeY = snakeY + yVelocity
+// }
 
-function drawFood() {
-    ctx.fillStyle = "yellow"
-    ctx.fillRect(foodX* tileBlock, foodY*tileBlock, tileSize, tileSize)
-}
+// function drawFood() {
+//     ctx.fillStyle = "yellow"
+//     ctx.fillRect(foodX* tileBlock, foodY*tileBlock, tileSize, tileSize)
+// }
 
-function checkFoodConsumed() {
-    if (foodX === snakeX && foodY === snakeY) {
-        foodX = Math.floor(Math.random() * tileCount)
-        foodY = Math.floor(Math.random() * tileCount)
-        snakeTail++
-        score++
-    }
-}
+// function checkFoodConsumed() {
+//     if (foodX === snakeX && foodY === snakeY) {
+//         foodX = Math.floor(Math.random() * tileCount)
+//         foodY = Math.floor(Math.random() * tileCount)
+//         snakeTail++
+//         score++
+//     }
+// }
 
-document.body.addEventListener('keydown', keyDown)
+// document.body.addEventListener('keydown', keyDown)
 
-function keyDown(event){
-    //up
-    if(event.keyCode == 38) {
-        if(inputYVelocity == 1)
-            return
-        inputYVelocity = -1
-        inputXVelocity = 0
-    }
-    //down
-    if(event.keyCode == 40) {
-        if(inputYVelocity == -1)
-            return
-        inputYVelocity = 1
-        inputXVelocity = 0
-    }
-    //left
-    if(event.keyCode == 37) {
-        if(inputXVelocity == 1)
-            return
-        inputYVelocity = 0
-        inputXVelocity = -1
-    }
-    //right
-    if(event.keyCode == 39) {
-        if(inputXVelocity == -1)
-            return 
-        inputYVelocity = 0
-        inputXVelocity = 1
-    }
-}
+// function keyDown(event){
+//     //up
+//     if(event.keyCode == 38) {
+//         if(inputYVelocity == 1)
+//             return
+//         inputYVelocity = -1
+//         inputXVelocity = 0
+//     }
+//     //down
+//     if(event.keyCode == 40) {
+//         if(inputYVelocity == -1)
+//             return
+//         inputYVelocity = 1
+//         inputXVelocity = 0
+//     }
+//     //left
+//     if(event.keyCode == 37) {
+//         if(inputXVelocity == 1)
+//             return
+//         inputYVelocity = 0
+//         inputXVelocity = -1
+//     }
+//     //right
+//     if(event.keyCode == 39) {
+//         if(inputXVelocity == -1)
+//             return 
+//         inputYVelocity = 0
+//         inputXVelocity = 1
+//     }
+// }
 
-drawGame()
+// drawGame()
 
 //build a high score table
 
@@ -178,7 +178,10 @@ Snakes = function (){
     }
     CORNER.LOOKUP
 }
-
+// cfg a new way I researched on google
+// a configuration is represented by an instance of the cfg() class. The constructor of the class can be passed a
+// filename or a stream which contains the text for the configuration. The text is read in, parsed and converted to an
+// object that you can then query
 let cfg = {
     runner: {
         stats: true
@@ -238,7 +241,7 @@ let cfg = {
     ]}
 }
 
-// game itself 
+// game itself and the menu 
 
 let game = Class.create({
     
@@ -294,9 +297,50 @@ let game = Class.create({
 
 })
 
-// scores
+// score system that I spent ages wrapping my head around.....
 
 let score = Class.create({
+    running: function(game) {
+        this.game = game
+        this.dom = {
+            highscores: {
 
-    
+            }
+        }
+    }
+
+})
+
+//generate a court that is like a frame around the game on the corner
+
+let court = Class.create({
+    running: function(game){
+        this.game = game
+    }
+})
+
+// fruit being generated as well as providing points when consumed
+
+let fruit = Class.create({
+    running: function(game) {
+        this.game = game
+        this.score = cfg.fruit.score
+        this.growth = cfg.fruit.growth
+    },
+    reset: function(pos){
+        this.pos
+    },
+
+})
+
+// snake being generated 
+
+let snake = Class.create({
+    running: function(game){
+        this.game = game
+    },
+
+    reset:function(option){
+        this.head = this.tail = new Game.Point(options.x, option.y)
+    }
 })
