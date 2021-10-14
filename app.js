@@ -15,7 +15,7 @@ let tileSize = canvas.width/ tileCount -2
 let snakeX = 10
 let snakeY = 10
 const snakeParts = []
-let snakeTail = 2 
+let snakeTail = 2
 
 let inputXVelocity = 0
 let inputYVelocity = 0
@@ -31,12 +31,14 @@ let score = 0
 function drawGame(){
     xVelocity = inputXVelocity
     yVelocity = inputYVelocity
+    
+    changePosition()
     let result = isGameOver()
     if(result){
         return
     }
     clearScreen()
-    changePosition()
+   
     checkFoodConsumed()
     drawSnake()
     drawFood()
@@ -76,14 +78,13 @@ function isGameOver(){
         gameOver = true
     }
     //if snake head touches the snake then it returns game over
-    // for(let i=0; i < snakeParts.length; i++){
-    //     let part = snakeParts[i]
-    //     if(part.x === snakeX && part.y === snakeY){
-    //         gameOver = true;
-    //         break;
-    //     }
-    // }
-    
+    for(let i=0; i < snakeParts.length; i++){
+        let part = snakeParts[i]
+        if(part.x === snakeX && part.y === snakeY){
+            gameOver = true;
+            break;
+        }
+    }
     // text to alert user that the game is over
     if (gameOver) {
         ctx.fillStyle = 'white'
