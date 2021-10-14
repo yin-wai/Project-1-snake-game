@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buddha's Project-1-snake-game</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.2.css">
 </head>
 <body>
     <h1>Snakes Game 2.0</h1>
@@ -14,9 +14,11 @@
             <span class="current"><span class="label">Score: </span><span class="value">000000</span></span>
             <span class="high"><span class="label">Highscore: </span><span class="value">000000</span></span>
         </div>
-        <canvas id="canvas" width="600" height="600"></canvas>
+        <canvas id="canvas"></canvas>
             <div id="menu_on_top">
                 <div id="highscores" class="menu">
+                    <h1>High Scores</h1>
+                    <ul></ul>
                 </div>
                 <div id="menu" class="menu">
                 <div></div>
@@ -24,6 +26,9 @@
         </div>
     </div>
     <div id="guide">controls: arrow keys </div>
-    <script src="app.js"></script>
+    <script src="app.2.js"></script>
+    <script>Game.ready(function() {
+        game = Snakes()
+    })</script>
 </body>
 </html>
