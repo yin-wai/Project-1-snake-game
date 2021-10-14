@@ -42,14 +42,14 @@ function drawGame(){
     drawFood()
     drawScore()
 
-    if (score > 6) {
-        speed = 9
+    if (score > 5) {
+        speed = 10
       }
-    if (score > 12) {
-        speed = 11
+    if (score > 10) {
+        speed = 13
       }
     if (score > 15) {
-        speed = 15
+        speed = 18
     }
 
     setTimeout(drawGame,1000/ speed)
@@ -61,7 +61,8 @@ function isGameOver(){
     if(yVelocity === 0 && xVelocity === 0){
         return false
     }
-
+    
+    //walls for collision
     if(snakeX < 0){
         gameOver = true
     }
@@ -74,15 +75,16 @@ function isGameOver(){
     else if(snakeY === tileCount){
         gameOver = true
     }
-
-    for(let i=0; i < snakeParts.length; i++){
-        let part = snakeParts[i]
-        if(part.x === snakeX && part.y === snakeY){
-            gameOver = true
-            break
-        }
-    }
-
+    //if snake head touches the snake then it returns game over
+    // for(let i=0; i < snakeParts.length; i++){
+    //     let part = snakeParts[i]
+    //     if(part.x === snakeX && part.y === snakeY){
+    //         gameOver = true;
+    //         break;
+    //     }
+    // }
+    
+    // text to alert user that the game is over
     if (gameOver) {
         ctx.fillStyle = 'white'
         ctx.font = "50px geneva"

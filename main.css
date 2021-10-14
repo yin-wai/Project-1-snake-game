@@ -3,15 +3,30 @@
 }
 
 body {
-    margin: 0px;
+    margin: 20px;
+}
+
+.theGame {
+    margin: 25px;
     padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: rgb(80, 138, 23);
 }
 button {
     padding:1em;
     margin:20px
+}
+
+div{
+    display: flex;
+    justify-content: center;
+}
+
+#guide {
+    padding:20px
+    
 }
