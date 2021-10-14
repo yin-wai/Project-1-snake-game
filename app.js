@@ -290,8 +290,13 @@ let game = Class.create({
     },
     onBackToMenu: function(){
         this.playClickFx()
-    }
+    },
+
 })
 
 // scores
 
+let score = Class.create({
+
+    
+})
