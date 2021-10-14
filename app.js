@@ -189,6 +189,13 @@ let cfg = {
             {name:'ready', from:'loading', to:'menu'},
             {name:'viewScores', from:'menu', to:'highscores'},
             {name:'viewCredits', from:'menu', to:'credits'},
+            {name:'newGame', from:'menu', to:'game'},
+            {name:'quitGame', from:'game', to:'quit'},
+            {name:'quitGame', from:'quit', to:'menu'},
+            {name:'continueGame', from:'quit', to:'game'},
+            {name:'loseGame', from:'game', to:'menu'},
+            {name:'newHighScore', from:'game', to:'name'},
+            {name:'saveHighScore', from:'name', to:'highscores'},
         ]
     },
     keys : [
@@ -208,5 +215,83 @@ let cfg = {
         { level:'Normal', AMove: 0.07, AScore: 1.00},
         { level:'Fast', AMove: 0.05, AScore: 1.25}
     ],
+    highscores: [
+        {name: "James", score: 7500},
+        {name: "Ed", score:6000},
+        {name: "Ideen", score:5000},
+        {name: "Arthur", score:4000},
+        {name:"Im so done", score: 3000},
+        {name:"With this Game", score:2000},
+        {name:"SNAKES", score:1000},
+        {name:"noob", score:500}
+    ],
+    colors: {
+        head: '#000',
+        body: {fill:'#C71E10', stroke:'black'},
+        fruit: {fill:'#1f673f', stroke: 'black'},
+        wall: {fill:'#2d1f67', stroke: 'black'}
+    },
+    fruit: {score:10, growth: 5, size: 64},
+    snake: {x:45, y:26, length:10, dir:DIR.LEFT},
+    court: {w:48, h:36, layout: [
 
+    ]}
 }
+
+// game itself 
+
+let game = Class.create({
+    
+    running: function(){
+        this.runner = new Game.Runner('canvas', this, cfg.runner)
+        this.storage = Game.storage()
+
+        this.dom = {
+            main: $('snakes'),
+            menu_on_top: $('menu_on_top'),
+            loading: $('loading'),
+        }
+        this.render = new render(this)
+        this.score = new score(this)
+        this.court = new court(this)
+        this.snake = new snake(this)
+        this.fruit = new fruit(this)
+
+        this.resetDifficulty()
+        this.resetGame()
+
+        this.menu = this.builtMenu()
+        this.quitMenu = this.buildQuitMenu()
+
+        Game.Key.map(cfg.keys, this)
+        StateMachine.create(cfg.state,this)
+
+        
+    },
+
+    onEnterLoading: function(event, from, to) {this.dom.loading.show()},
+    onLeavingLoading: function(event, from, to) {this.dom.loading.fadeout()},
+    onEnterHighscores: function(event, from, to) { if(from !== 'name') this.score.dom.highscores.page.fadeIn()},
+    onLeavingHighscores: function(event, from, to) { this.score.dom.highscores.page.fadeOut()},
+    onEnterName: function(event, from, to) {this.score.newHighScore()},
+    onLeaveName: function(event, from, to) {this.score.save()},
+    onEnterQuit: function(event, from, to) {this.quitMenu.fadeIn()},
+    onLeaveQuit: function(event, from, to) {this.quitMenu.fadeOut()},
+    onEnterMenu: function(event, from, to) {this.menu.fadeIn()},
+    onLeaveMenu: function(event, from, to) {this.menu.fadeOut()},
+    onEnterGame: function(event, from, to) {this.dom.menu_on_top.fadeOut()},
+    onLeaveGame: function(event, from, to) {this.dom.menu_on_top.fadeIn()},
+
+    onReady: function() {
+        this.runner.start()
+    },
+    onNewGame: function(){
+        this.resetGame()
+    },
+    onBackToMenu: function(){
+        this.playClickFx()
+    }
+})
+
+// scores
+
